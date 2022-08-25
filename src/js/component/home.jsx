@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
+import TrafficLight from "./trafficLight.jsx";
 
 //create your first component
 const Home = () => {
@@ -32,23 +33,56 @@ const Home = () => {
   let index = 0
 
  
-  const animation = () => {
-    setInterval( () => {
-      let coloursArray = ["red", "yellow", "green"];
+  // const animation = () => {
+  //   setInterval( () => {
+      // let coloursArray = ["red", "yellow", "green"];
+      // setColor(coloursArray[index]);
+      // index++;
+      // if (color == null) {clearInterval(this)}
+      // if (index > 2) {index = 0}}, 1000)
+  
+  // }
+
+  let interval;
+
+
+  const [startLighting, setStartLighting] = useState("off")
+
+  const changeState = () => {
+    if (startLighting == "off") {
+      interval = setInterval ( () => {
+        let coloursArray = ["red", "yellow", "green"];
       setColor(coloursArray[index]);
       index++;
-      // if (color == null) {clearInterval(this)}
-      if (index > 2) {index = 0}}, 1000)
-      
-    
+      if (index > 2) {index = 0}
+      }, 1000)
+      // startLighting = "on";
+      setStartLighting("on");
+      console.log(startLighting)
+   }
+   else {setStartLighting("off"); 
+   clearInterval(interval)
+  console.log(startLighting)
   }
+  }
+  
+  // Aún no logro detener el setInterval, empiezo desesperarme. 
+
+
+  // const stopAnimation = () => {
+  //   console.log(interval)
+  //   clearInterval(interval)
+  //   console.log(interval)
+  // }
+
 
 	return (<>
     
 		<div className="kontainer">
+      
       <div className="botones">
         <span className="buttons" id="turn-off-button" onClick={turningOff}>Turn off</span>
-        <span className="buttons" id="start-button" onClick={animation}>Start animation</span>
+        <span className="buttons" id="start-button" onClick={changeState}>Start animation</span>
         {/* <span className="buttons" id="stop-button" onClick={stopAnimation}>Stop animation</span> */}
 
       </div>
@@ -62,6 +96,14 @@ const Home = () => {
       <div className="floor"></div>
        
     </div>
+    <div className="container">
+            <div className="container bg-dark" style={{width: 67}}>
+                <div className="rounder-circle bg-light" style={{width: 50, height: 50}} ><div className="rounded-circle bg-success" style={{width: 45, height: 45}} onClick={greenSelected}></div></div>
+                <div><div className="rounded-circle bg-warning" style={{width: 45, height: 45}} onClick={yellowSelected}></div></div>
+                <div><div className="rounded-circle bg-danger" style={{width: 45, height: 45}} onClick={redSelected}></div></div>
+            </div>
+        </div>
+    {/* <TrafficLight funct={redColored}/> */}
     </>
 	);
 };
